@@ -1,13 +1,14 @@
 
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 from pydrake.all import (BasicVector, DiagramBuilder, FloatingBaseType,
                          RigidBodyPlant, RigidBodyTree, Simulator, VectorSystem, SignalLogger)
 from underactuated import (FindResource, PlanarRigidBodyVisualizer)
 
 # Load the double pendulum from Universal Robot Description Format
-tree = RigidBodyTree(FindResource("/home/mathew/workspace/quasistatics/double_pendulum/block_pusher.urdf"),
-                     FloatingBaseType.kFixed)
+#tree = RigidBodyTree(FindResource(os.path.dirname(os.path.realpath(__file__)) + "/block_pusher2.urdf"),
+#                     FloatingBaseType.kFixed)
 
 
 
@@ -99,8 +100,8 @@ class DController(VectorSystem):
 
 
 def simulateRobot(time, B, v_command):
-    tree = RigidBodyTree(FindResource("/home/mathew/workspace/quasistatics/double_pendulum/block_pusher2.urdf"),
-                         FloatingBaseType.kFixed)
+    tree = RigidBodyTree(FindResource(os.path.dirname(os.path.realpath(__file__)) + "/block_pusher2.urdf"),
+                    FloatingBaseType.kFixed)
 
     # Set up a block diagram with the robot (dynamics), the controller, and a
     # visualization block.
