@@ -90,7 +90,24 @@ class DController(VectorSystem):
             inds = [2*i, 2*i + 1]
             u[inds] = IVK(q[inds], v_des[inds])
         torque[:(-3)] = self.B.dot(u - v[:(-3)])
-        
+
+class Player(VectorSystem):
+    def __init__(self, data, times):
+        VectorSystem.__init__(self, 0, data.shape[0])
+        self.data = data
+        self.times = times
+        self.nt = times.size
+
+    def _DoCalcVectorOutput(self, context, unused1, unused2, out):
+        t = context.get_time()
+        ind = 0
+        if t <= self.times[0]:
+            ind = 0
+        elif t >= self.times[-1]:
+            ind = self.nt - 1
+        else:
+            ind = np.argmax(self.times >= t)
+        out[:] = self.data[:,ind]
         #import pdb; pdb.set_trace()
 
 
@@ -146,11 +163,40 @@ def simulateRobot(time, B, v_command):
     # Simulate for 10 seconds
     simulator.StepTo(time)
     #import pdb; pdb.set_trace()
-    return (logger.data()[8:11, :], logger.sample_times())
-#plt.figure()
-#plt.plot(logger.data()[4, :], logger.data()[11, :])
-#plt.xlabel('left leg angle')
-#plt.ylabel('left leg angular velocity')
-#import pdb; pdb.set_trace()
-#plt.show()
+    return (logger.data()[8:11, :], logger.data()[:8, :], logger.data()[19:22, :], logger.data()[11:19, :], logger.sample_times())
 
+def playbackMotion(data1, data2, data3, data4, times):
+    data = np.concatenate((data2, data1, data4, data3), axis=0)
+    tree = RigidBodyTree(FindResource(os.path.dirname(os.path.realpath(__file__)) + "/block_pusher2.urdf"),
+                    FloatingBaseType.kFixed)
+
+    # Set up a block diagram with the robot (dynamics), the controller, and a
+    # visualization block.
+    builder = DiagramBuilder()
+    robot = builder.AddSystem(Player(data, times))
+
+
+    Tview = np.array([[1., 0., 0., 0.],
+                          [0., 1., 0., 0.],
+                          [0., 0., 0., 1.]],
+                         dtype=np.float64)
+    visualizer = builder.AddSystem(PlanarRigidBodyVisualizer(tree,Tview,
+                                                             xlim=[-2.8, 4.8],
+                                                             ylim=[-2.8, 10]))
+    print(robot.get_output_port(0).size())
+    builder.Connect(robot.get_output_port(0), visualizer.get_input_port(0))
+
+
+    logger = builder.AddSystem(SignalLogger(tree.get_num_positions() + tree.get_num_velocities()))
+    builder.Connect(robot.get_output_port(0), logger.get_input_port(0))
+
+    diagram = builder.Build()
+
+    # Set up a simulator to run this diagram
+    simulator = Simulator(diagram)
+    simulator.set_target_realtime_rate(1.0)
+    simulator.set_publish_every_time_step(True)
+
+
+    # Simulate for 10 seconds
+    simulator.StepTo(times[-1] + 2)

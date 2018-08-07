@@ -8,6 +8,11 @@ def traj(t):
 
 
 B = 10*np.eye(8)
-time = 3
+time = 0.5
 
-(positions, times) = simulateRobot(time, B, traj)
+(object_positions, manipulator_positions, object_velocities, manipulator_velocities, times) = simulateRobot(time, B, traj)
+
+
+raw_input("press Enter to continue")
+
+playbackMotion(object_positions, manipulator_positions, object_velocities, manipulator_velocities, times)
