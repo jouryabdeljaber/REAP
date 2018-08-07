@@ -1,0 +1,420 @@
+<?xml version="1.0"?>
+
+<robot xmlns="http://drake.mit.edu"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xsi:schemaLocation="http://drake.mit.edu ../../doc/drakeURDF.xsd" name="SimpleDoublePendulum">
+  <material name="black">
+    <color rgba="0 0 0 1" />
+  </material>
+  <material name="MITred">
+    <color rgba="1 .2 .2 1" />
+  </material>
+  <material name="bloo">
+    <color rgba="0.1 .1 1 1" />
+  </material>
+
+  <link name="base">
+    <inertial>
+      <origin xyz="0 0 0" />
+      <mass value="0.01" />
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0.0" />
+    </inertial>
+  </link>
+  <link name="upper_arm">
+    <inertial> 
+      <origin xyz="0 -2 0" rpy="0 0 0" />
+      <mass value="1" />
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/> 
+    </inertial>
+    <visual>
+      <origin xyz="0 -1 0" rpy="0 0 0" />
+      <geometry>
+         <box size="0.1 2 0.1" />
+      </geometry>
+      <material name="black" />
+    </visual> 
+    <visual>
+      <origin xyz="0 -2 0"/>
+      <geometry>
+        <sphere radius=".05"/>
+      </geometry>
+      <material name="black" />
+    </visual>
+  </link>
+  <joint name="shoulder" type="continuous">
+    <parent link="base"/>
+    <child link="upper_arm" />
+    <axis xyz="0 0 1" />
+    <dynamics damping="0.1" />
+  </joint>
+  <transmission type="SimpleTransmission" name="shoulder_trans">
+    <actuator name="shoulder" />
+    <joint name="shoulder" />
+    <mechanicalReduction>1</mechanicalReduction>
+  </transmission>
+
+  <link name="lower_arm">
+    <inertial> 
+      <origin xyz="0 -2 0" rpy="0 0 0" />
+      <mass value="1" />
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/> 
+    </inertial>
+    <visual>
+      <origin xyz="0 -1 0" rpy="0 0 0" />
+      <geometry>
+         <box size="0.1 2 0.1" />
+      </geometry>
+      <material name="black" />
+    </visual>
+    <collision>
+      <origin xyz="0 -2 0"/>
+      <geometry>
+        <sphere radius=".05"/>
+      </geometry>
+    </collision> 
+    <visual>
+      <origin xyz="0 -2 0"/>
+      <geometry>
+        <sphere radius=".05"/>
+      </geometry>
+      <material name="MITred" />
+    </visual>
+  </link>
+  <joint name="elbow" type="continuous">
+    <parent link="upper_arm"/>
+    <origin xyz="0 -2 0" />
+    <child link="lower_arm" />
+    <axis xyz="0 0 1" />
+    <dynamics damping="0.1" />
+  </joint>
+  <transmission type="SimpleTransmission" name="elbow_trans">
+    <actuator name="elbow" />
+    <joint name="elbow" />
+    <mechanicalReduction>1</mechanicalReduction>
+  </transmission>
+
+  <link name="base2">
+    <inertial>
+      <origin xyz="0 0 0" />
+      <mass value="0.01" />
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0.0" />
+    </inertial>
+  </link>
+  <joint name="baseTranslate" type="fixed">
+    <parent link="base"/>
+    <child link="base2"/>
+    <origin xyz="2 0 0" rpy="0 0 0" />
+  </joint>
+
+
+  <link name="upper_arm2">
+    <inertial> 
+      <origin xyz="0 -2 0" rpy="0 0 0" />
+      <mass value="1" />
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/> 
+    </inertial>
+    <visual>
+      <origin xyz="0 -1 0" rpy="0 0 0" />
+      <geometry>
+         <box size="0.1 2 0.1" />
+      </geometry>
+      <material name="black" />
+    </visual> 
+    <visual>
+      <origin xyz="0 -2 0"/>
+      <geometry>
+        <sphere radius=".05"/>
+      </geometry>
+      <material name="black" />
+    </visual>
+  </link>
+  <joint name="shoulder2" type="continuous">
+    <parent link="base2"/>
+    <child link="upper_arm2" />
+    <axis xyz="0 0 1" />
+    <dynamics damping="0.1" />
+  </joint>
+  <transmission type="SimpleTransmission" name="shoulder_trans2">
+    <actuator name="shoulder2" />
+    <joint name="shoulder2" />
+    <mechanicalReduction>1</mechanicalReduction>
+  </transmission>
+
+  <link name="lower_arm2">
+    <inertial> 
+      <origin xyz="0 -2 0" rpy="0 0 0" />
+      <mass value="1" />
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/> 
+    </inertial>
+    <visual>
+      <origin xyz="0 -1 0" rpy="0 0 0" />
+      <geometry>
+         <box size="0.1 2 0.1" />
+      </geometry>
+      <material name="black" />
+    </visual> 
+    <visual>
+      <origin xyz="0 -2 0"/>
+      <geometry>
+        <sphere radius=".05"/>
+      </geometry>
+      <material name="MITred" />
+    </visual>
+    <collision>
+      <origin xyz="0 -2 0"/>
+      <geometry>
+        <sphere radius=".05"/>
+      </geometry>
+    </collision> 
+  </link>
+  <joint name="elbow2" type="continuous">
+    <parent link="upper_arm2"/>
+    <origin xyz="0 -2 0" />
+    <child link="lower_arm2" />
+    <axis xyz="0 0 1" />
+    <dynamics damping="0.1" />
+  </joint>
+  <transmission type="SimpleTransmission" name="elbow_trans2">
+    <actuator name="elbow2" />
+    <joint name="elbow2" />
+    <mechanicalReduction>1</mechanicalReduction>
+  </transmission>
+
+  <link name="base3">
+    <inertial>
+      <origin xyz="0 0 0" />
+      <mass value="0.01" />
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0.0" />
+    </inertial>
+  </link>
+  <joint name="baseTranslate3" type="fixed">
+    <parent link="base"/>
+    <child link="base3"/>
+    <origin xyz="2 2 0" rpy="0 0 0" />
+  </joint>
+
+
+  <link name="upper_arm3">
+    <inertial> 
+      <origin xyz="0 -2 0" rpy="0 0 0" />
+      <mass value="1" />
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/> 
+    </inertial>
+    <visual>
+      <origin xyz="0 -1 0" rpy="0 0 0" />
+      <geometry>
+         <box size="0.1 2 0.1" />
+      </geometry>
+      <material name="black" />
+    </visual> 
+    <visual>
+      <origin xyz="0 -2 0"/>
+      <geometry>
+        <sphere radius=".05"/>
+      </geometry>
+      <material name="black" />
+    </visual>
+  </link>
+  <joint name="shoulder3" type="continuous">
+    <parent link="base3"/>
+    <child link="upper_arm3" />
+    <axis xyz="0 0 1" />
+    <dynamics damping="0.1" />
+  </joint>
+  <transmission type="SimpleTransmission" name="shoulder_trans3">
+    <actuator name="shoulder3" />
+    <joint name="shoulder3" />
+    <mechanicalReduction>1</mechanicalReduction>
+  </transmission>
+
+  <link name="lower_arm3">
+    <inertial> 
+      <origin xyz="0 -2 0" rpy="0 0 0" />
+      <mass value="1" />
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/> 
+    </inertial>
+    <visual>
+      <origin xyz="0 -1 0" rpy="0 0 0" />
+      <geometry>
+         <box size="0.1 2 0.1" />
+      </geometry>
+      <material name="black" />
+    </visual> 
+    <visual>
+      <origin xyz="0 -2 0"/>
+      <geometry>
+        <sphere radius=".05"/>
+      </geometry>
+      <material name="MITred" />
+    </visual>
+    <collision>
+      <origin xyz="0 -2 0"/>
+      <geometry>
+        <sphere radius=".05"/>
+      </geometry>
+    </collision> 
+  </link>
+  <joint name="elbow3" type="continuous">
+    <parent link="upper_arm3"/>
+    <origin xyz="0 -2 0" />
+    <child link="lower_arm3" />
+    <axis xyz="0 0 1" />
+    <dynamics damping="0.1" />
+  </joint>
+  <transmission type="SimpleTransmission" name="elbow_trans3">
+    <actuator name="elbow3" />
+    <joint name="elbow3" />
+    <mechanicalReduction>1</mechanicalReduction>
+  </transmission>
+
+
+
+  <link name="base4">
+    <inertial>
+      <origin xyz="0 0 0" />
+      <mass value="0.01" />
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0.0" />
+    </inertial>
+  </link>
+  <joint name="baseTranslate4" type="fixed">
+    <parent link="base"/>
+    <child link="base4"/>
+    <origin xyz="0 2 0" rpy="0 0 0" />
+  </joint>
+
+
+  <link name="upper_arm4">
+    <inertial> 
+      <origin xyz="0 -2 0" rpy="0 0 0" />
+      <mass value="1" />
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/> 
+    </inertial>
+    <visual>
+      <origin xyz="0 -1 0" rpy="0 0 0" />
+      <geometry>
+         <box size="0.1 2 0.1" />
+      </geometry>
+      <material name="black" />
+    </visual> 
+    <visual>
+      <origin xyz="0 -2 0"/>
+      <geometry>
+        <sphere radius=".05"/>
+      </geometry>
+      <material name="black" />
+    </visual>
+  </link>
+  <joint name="shoulder4" type="continuous">
+    <parent link="base4"/>
+    <child link="upper_arm4" />
+    <axis xyz="0 0 1" />
+    <dynamics damping="0.1" />
+  </joint>
+  <transmission type="SimpleTransmission" name="shoulder_trans4">
+    <actuator name="shoulder4" />
+    <joint name="shoulder4" />
+    <mechanicalReduction>1</mechanicalReduction>
+  </transmission>
+
+  <link name="lower_arm4">
+    <inertial> 
+      <origin xyz="0 -2 0" rpy="0 0 0" />
+      <mass value="1" />
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0"/> 
+    </inertial>
+    <visual>
+      <origin xyz="0 -1 0" rpy="0 0 0" />
+      <geometry>
+         <box size="0.1 2 0.1" />
+      </geometry>
+      <material name="black" />
+    </visual> 
+    <visual>
+      <origin xyz="0 -2 0"/>
+      <geometry>
+        <sphere radius=".05"/>
+      </geometry>
+      <material name="MITred" />
+    </visual>
+    <collision>
+      <origin xyz="0 -2 0"/>
+      <geometry>
+        <sphere radius=".05"/>
+      </geometry>
+    </collision> 
+  </link>
+  <joint name="elbow4" type="continuous">
+    <parent link="upper_arm4"/>
+    <origin xyz="0 -2 0" />
+    <child link="lower_arm4" />
+    <axis xyz="0 0 1" />
+    <dynamics damping="0.1" />
+  </joint>
+  <transmission type="SimpleTransmission" name="elbow_trans4">
+    <actuator name="elbow4" />
+    <joint name="elbow4" />
+    <mechanicalReduction>1</mechanicalReduction>
+  </transmission>
+
+
+
+
+  <link name="obx">
+  </link>
+  <joint name="object_x" type="prismatic">
+    <parent link="base"/>
+    <child link="obx"/>
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <axis xyz="1 0 0" />
+  </joint>
+  <link name="oby">
+  </link>
+  <joint name="object_y" type="prismatic">
+    <parent link="obx"/>
+    <child link="oby"/>
+    <origin xyz="0 0 0" rpy="0 0 0" />
+    <axis xyz="0 1 0" />
+  </joint>
+
+  <link name="object">
+    <inertial>
+      <origin xyz="0 0 0" />
+      <mass value="0.01" />
+      <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0.01" />
+    </inertial>
+    <visual>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+         <box size="0.4 0.4 0.4" />
+      </geometry>
+      <material name="bloo" />
+    </visual>
+    <collision>
+      <origin xyz="0 0 0" rpy="0 0 0" />
+      <geometry>
+         <box size="0.4 0.4 0.4" />
+      </geometry>
+    </collision>
+  </link>
+  <joint name="object_theta" type="continuous">
+    <parent link="oby"/>
+    <child link="object"/>
+    <axis xyz="0 0 1" />
+    <origin xyz="0 0 0" rpy="0 0 0" />
+  </joint>
+  <transmission type="SimpleTransmission" name="friction_x">
+    <actuator name="object_x" />
+    <joint name="object_x" />
+    <mechanicalReduction>1</mechanicalReduction>
+  </transmission>
+  <transmission type="SimpleTransmission" name="friction_y">
+    <actuator name="object_y" />
+    <joint name="object_y" />
+    <mechanicalReduction>1</mechanicalReduction>
+  </transmission>
+  <transmission type="SimpleTransmission" name="friction_theta">
+    <actuator name="object_theta" />
+    <joint name="object_theta" />
+    <mechanicalReduction>1</mechanicalReduction>
+  </transmission>
+</robot>
