@@ -19,7 +19,7 @@ def IVK(q, v_man):
     return np.linalg.lstsq(np.array([[np.cos(q[0]) + np.cos(q[0] + q[1]), np.cos(q[0] + q[1])],[np.sin(q[0]) + np.sin(q[0] + q[1]), np.sin(q[0] + q[1])]]), v_man/l)[0]
 
 def sigm(x):
-    return 1./(1. + np.exp(-10*x))
+    return 1./(1. + np.exp(-10000*x))
 
 
 
@@ -200,3 +200,16 @@ def playbackMotion(data1, data2, data3, data4, times):
 
     # Simulate for 10 seconds
     simulator.StepTo(times[-1] + 2)
+
+def getPredictedMotion(B, v_command, object_positions, manipulator_positions, object_velocities, manipulator_velocities, times):
+    object_positions = object_positions + 0.1
+    manipulator_positions = manipulator_positions + 0.1
+    object_velocities = object_velocities + 0.1
+    manipulator_velocities = manipulator_velocities + 0.1
+
+    object_positions = object_positions[:, range(0,object_positions.shape[1],2)]
+    manipulator_positions = manipulator_positions[:, range(0,manipulator_positions.shape[1],2)]
+    object_velocities = object_velocities[:, range(0,object_velocities.shape[1],2)]
+    manipulator_velocities = manipulator_velocities[:, range(0,manipulator_velocities.shape[1],2)]
+    times = times[range(0,times.size,2)]
+    return (object_positions, manipulator_positions, object_velocities, manipulator_velocities, times)
