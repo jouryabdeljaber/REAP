@@ -2,7 +2,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 #import lemkelcp as lcp
-import lcp
+#import lcp
 import os
 from pydrake.all import (BasicVector, DiagramBuilder, FloatingBaseType,
                          RigidBodyPlant, RigidBodyTree, Simulator, VectorSystem, SignalLogger)
