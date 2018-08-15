@@ -108,6 +108,7 @@ class QuasiStaticRigidBodyPlant(VectorSystem):
         M[0:(n_con*(n_tan+1)), 0:(n_con*(n_tan+1))] = JO.dot( self.A.dot(JO.transpose()) ) + JM.dot( self.B.dot(JM.transpose()) )
         M[0:(n_con*n_tan),-n_con:] = np.repeat(np.eye(n_con), n_tan, axis=0)
         M[-n_con:,0:(n_con*n_tan)] = -np.repeat(np.eye(n_con), n_tan, axis=1)
+        M[-n_con:,(n_con*n_tan):(n_con*(n_tan+1))] = 0.5*np.eye(n_con)
 
 
         q[0:(n_con*(n_tan+1))] = JM.dot(self.time_step * um)

@@ -71,6 +71,12 @@
       <geometry>
         <sphere radius=".05"/>
       </geometry>
+      <drake_compliance>
+            <youngs_modulus>3e7</youngs_modulus>
+            <dissipation>5</dissipation>
+            <static_friction>0.5</static_friction>
+            <dynamic_friction>0.5</dynamic_friction>
+      </drake_compliance>
     </collision> 
     <visual>
       <origin xyz="0 -2 0"/>
@@ -165,6 +171,12 @@
       <geometry>
         <sphere radius=".05"/>
       </geometry>
+      <drake_compliance>
+            <youngs_modulus>3e7</youngs_modulus>
+            <dissipation>5</dissipation>
+            <static_friction>0.5</static_friction>
+            <dynamic_friction>0.5</dynamic_friction>
+      </drake_compliance>
     </collision> 
   </link>
   <joint name="elbow2" type="continuous">
@@ -252,6 +264,12 @@
       <geometry>
         <sphere radius=".05"/>
       </geometry>
+      <drake_compliance>
+            <youngs_modulus>3e7</youngs_modulus>
+            <dissipation>5</dissipation>
+            <static_friction>0.5</static_friction>
+            <dynamic_friction>0.5</dynamic_friction>
+      </drake_compliance>
     </collision> 
   </link>
   <joint name="elbow3" type="continuous">
@@ -341,6 +359,12 @@
       <geometry>
         <sphere radius=".05"/>
       </geometry>
+      <drake_compliance>
+            <youngs_modulus>3e7</youngs_modulus>
+            <dissipation>5</dissipation>
+            <static_friction>0.5</static_friction>
+            <dynamic_friction>0.5</dynamic_friction>
+      </drake_compliance>
     </collision> 
   </link>
   <joint name="elbow4" type="continuous">
@@ -394,6 +418,12 @@
       <geometry>
          <box size="0.4 0.4 0.4" />
       </geometry>
+      <drake_compliance>
+            <youngs_modulus>3e7</youngs_modulus>
+            <dissipation>5</dissipation>
+            <static_friction>0.5</static_friction>
+            <dynamic_friction>0.5</dynamic_friction>
+      </drake_compliance>
     </collision>
   </link>
   <joint name="object_theta" type="continuous">
