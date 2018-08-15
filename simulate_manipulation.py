@@ -325,7 +325,7 @@ def playbackMotion(data1, data2, data3, data4, times):
     # Simulate for 10 seconds
     simulator.StepTo(times[-1] + 0.5)
 
-def getPredictedMotion(B, v_command, object_positions, manipulator_positions, object_velocities, manipulator_velocities, times):
+def getPredictedMotion(B, v_command, time):
     #object_positions = object_positions + 0.1
     #manipulator_positions = manipulator_positions + 0.1
     #object_velocities = object_velocities + 0.1
@@ -337,7 +337,6 @@ def getPredictedMotion(B, v_command, object_positions, manipulator_positions, ob
     #manipulator_velocities = manipulator_velocities[:, range(0,manipulator_velocities.shape[1],2)]
     #times = times[range(0,times.size,2)]
     #import pdb; pdb.set_trace()
-    time = times[-1]
     step = 0.01
     A = 10*np.eye(3)
 
